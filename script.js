@@ -48,10 +48,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // 3. Dynamic Typewriter Effect for Hero Headline
     const typewriterElement = document.getElementById('typewriter');
     const roles = [
-        "AI & Data Science Student",
-        "Full-Stack Developer",
-        "Machine Learning Enthusiast",
-        "Data Analyst"
+        "an AI & Data Science Student",
+        "a Full-Stack Developer",
+        "a Machine Learning Enthusiast",
+        "a Data Analyst"
     ];
     let roleIndex = 0;
     let charIndex = 0;
