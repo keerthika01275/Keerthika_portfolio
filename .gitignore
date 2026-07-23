@@ -1,0 +1,14 @@
+# Dependencies
+node_modules/
+
+# Environment & Secret Configuration
+config.js
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Editor Files
+.vscode/
+*.swp
+*.swo

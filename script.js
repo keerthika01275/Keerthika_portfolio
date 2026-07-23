@@ -166,28 +166,29 @@ document.addEventListener('DOMContentLoaded', () => {
             const originalBtnContent = formSubmitBtn.innerHTML;
             formSubmitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
 
-            // Send real email using FormSubmit.co AJAX API
-            fetch("https://formsubmit.co/ajax/keerthika15122005@gmail.com", {
+            // Send real email using Web3Forms API
+            fetch("https://api.web3forms.com/submit", {
                 method: "POST",
-                headers: { 
+                headers: {
                     "Content-Type": "application/json",
                     "Accept": "application/json"
                 },
                 body: JSON.stringify({
+                    access_key: (typeof CONFIG !== 'undefined') ? CONFIG.WEB3FORMS_KEY : "",
                     name: name,
                     email: email,
-                    message: message
+                    message: message,
+                    subject: `New Portfolio Contact from ${name}`
                 })
             })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                }
-                throw new Error("Network response was not ok.");
-            })
+            .then(response => response.json())
             .then(data => {
-                showFeedback(`Thank you, ${name}! Your message has been sent successfully.`, "success");
-                contactForm.reset();
+                if (data.success) {
+                    showFeedback(`Thank you, ${name}! Your message has been sent successfully.`, "success");
+                    contactForm.reset();
+                } else {
+                    throw new Error(data.message || "Submission failed.");
+                }
             })
             .catch(error => {
                 console.error("Error sending message:", error);
@@ -197,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Re-enable submit button
                 formSubmitBtn.disabled = false;
                 formSubmitBtn.innerHTML = originalBtnContent;
-                
+
                 // Clear notification after 6 seconds
                 setTimeout(() => {
                     formFeedback.textContent = '';
