@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
         revealObserver.observe(element);
     });
 
-    // 6. Interactive Mock Contact Form Submission Handler
+    // 6. Interactive Contact Form Submission Handler (Integrated with FormSubmit.co)
     const contactForm = document.getElementById('contact-form');
     const formFeedback = document.getElementById('form-feedback');
     const formSubmitBtn = document.getElementById('form-submit-btn');
@@ -166,23 +166,44 @@ document.addEventListener('DOMContentLoaded', () => {
             const originalBtnContent = formSubmitBtn.innerHTML;
             formSubmitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
 
-            // Simulate server network latency (1.5 seconds)
-            setTimeout(() => {
-                // Success actions
+            // Send real email using FormSubmit.co AJAX API
+            fetch("https://formsubmit.co/ajax/keerthika15122005@gmail.com", {
+                method: "POST",
+                headers: { 
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    message: message
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error("Network response was not ok.");
+            })
+            .then(data => {
                 showFeedback(`Thank you, ${name}! Your message has been sent successfully.`, "success");
                 contactForm.reset();
-                
+            })
+            .catch(error => {
+                console.error("Error sending message:", error);
+                showFeedback("Oops! There was a problem sending your message. Please try again.", "error");
+            })
+            .finally(() => {
                 // Re-enable submit button
                 formSubmitBtn.disabled = false;
                 formSubmitBtn.innerHTML = originalBtnContent;
                 
-                // Clear success notification after 5 seconds
+                // Clear notification after 6 seconds
                 setTimeout(() => {
                     formFeedback.textContent = '';
                     formFeedback.className = 'form-feedback';
-                }, 5000);
-
-            }, 1500);
+                }, 6000);
+            });
         });
     }
 
