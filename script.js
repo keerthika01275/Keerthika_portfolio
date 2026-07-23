@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     "Accept": "application/json"
                 },
                 body: JSON.stringify({
-                    access_key: (typeof CONFIG !== 'undefined') ? CONFIG.WEB3FORMS_KEY : "",
+                    access_key: "c39aed7d-542d-4839-a213-04200293485e",
                     name: name,
                     email: email,
                     message: message,
